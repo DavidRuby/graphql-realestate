@@ -4,9 +4,10 @@ const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
 
+const Event = require('./models/event');
+
 const app = express();
 
-const events = [];
 
 app.use(bodyParser.json());
 
@@ -47,16 +48,23 @@ app.use(
         return events;
       },
       createEvent: (args) => {
-        const event = {
-          _id: Math.random().toString(),
-          title: args.eventImput.title,
-          description: args.eventImput.description,
-          price: +args.eventImput.price,
-          date: args.eventImput.date,
-        };
-        console.log(args);
-        events.push(event);
-        return event;
+      
+        const event = new Event({
+           title: args.eventImput.title,
+           description: args.eventImput.description,
+           price: +args.eventImput.price,
+           date: new Date(args.eventImput.date)
+        });
+        return event
+        .save()
+        .then(result => {
+          console.log(result);
+          return {...result._doc};
+        })
+        .catch(err => {
+          console.log(err);
+          throw err;
+        });
       }
     },
     graphiql: true
@@ -64,9 +72,13 @@ app.use(
 );
 
 mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
-  process.env.MONGO_PASSWORD}@reactjsprojects-g277v.mongodb.net/test?retryWrites=true&w=majority`
-  ).then().catch(err=> {
+  process.env.MONGO_PASSWORD}@reactjsprojects-g277v.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
+  )
+  .then(() => {
+    app.listen(3000);
+  })
+  .catch(err=> {
     console.log(err);
   });
 
-  app.listen(8383);
+ 
