@@ -76,14 +76,28 @@ app.use(
            title: args.eventImput.title,
            description: args.eventImput.description,
            price: +args.eventImput.price,
-           date: new Date(args.eventImput.date)
+           date: new Date(args.eventImput.date),
+           creator: '/'
         });
+        let createdEvent;
         return event
         .save()
         .then(result => {
+          createdEvent = { ...result._doc,_id: result._doc._id.toString() };
+          return User.findById('/')
           console.log(result);
           return {...result._doc, _id: result._doc._id.toString() };
         })
+        .then(user => {
+          if (user) {
+            throw new Error('User exists already.');
+        }
+        user.createdEvents.push(event);
+        return user.save();
+      })
+      .then(result => {
+         return createdEvent;
+      })
         .catch(err => {
           console.log(err);
           throw err;
