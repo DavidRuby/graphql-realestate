@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
+const mongoose = require('mongoose');
 
 const app = express();
 
@@ -62,4 +63,10 @@ app.use(
   })
 );
 
-app.listen(8383);
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
+  process.env.MONGO_PASSWORD}@reactjsprojects-g277v.mongodb.net/test?retryWrites=true&w=majority`
+  ).then().catch(err=> {
+    console.log(err);
+  });
+
+  app.listen(8383);
