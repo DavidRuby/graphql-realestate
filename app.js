@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
 const { buildSchema } = require('graphql');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const Event = require('./models/event');
+const User = require('./models/User');
 
 const app = express();
 
@@ -23,11 +25,22 @@ app.use(
           date: String!
         }
 
-        imput EventImput {
+        type User {
+          _id: ID!
+          email: String!
+          password: String
+        }
+
+        input EventInput {
             title: String!
             description: String!
             price: Float!
             date: String!
+        }
+
+        input UserInput {
+          email: String!
+          password: String!
         }
 
         type RootQuery {
@@ -35,7 +48,8 @@ app.use(
         }
 
         type RootMutation {
-            createEvent(eventInput: EventImput): Event
+            createEvent(eventInput: EventInput): Event
+            createUser(userInput: UserInput): User
         }
 
         schema {
@@ -43,9 +57,18 @@ app.use(
             mutation: RootMutation
         }
     `),
+
     rootValue: {
       events: () => {
-        return events;
+        Event.find()
+        .then(events => {
+          return events.map(event => {
+            return {...event._doc, _id: event._doc, _id: event.id };
+          });
+        })
+        .catch(err => {
+          throw err;
+        });
       },
       createEvent: (args) => {
       
@@ -59,12 +82,30 @@ app.use(
         .save()
         .then(result => {
           console.log(result);
-          return {...result._doc};
+          return {...result._doc, _id: result._doc._id.toString() };
         })
         .catch(err => {
           console.log(err);
           throw err;
         });
+      },
+      createUser: args => {
+        return bcrypt
+        .hash(args.userInput.password, 12)
+        .then(hashedPassword => {
+          const user = new User({
+            email: args.userInput.email,
+            password: hashedPassword
+          });
+      return user.save();
+        })
+        .then(result => {
+         return { ...result._doc, password: null, _id: result.id }
+        })
+        .catch(err => {
+          throw err;
+        })
+    
       }
     },
     graphiql: true
