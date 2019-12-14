@@ -23,7 +23,10 @@ app.use(
   })
 );
 
-mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${
+/// Mongo DB Mongoose connection
+
+mongoose
+.connect(`mongodb+srv://${process.env.MONGO_USER}:${
   process.env.MONGO_PASSWORD}@reactjsprojects-g277v.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
   )
   .then(() => {
