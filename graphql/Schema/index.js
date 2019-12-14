@@ -34,7 +34,7 @@ type AuthData {
     tokenExpiration: Int! 
 }
 
-imput EventImput {
+input EventInput {
     title: String!
     description: String!
     price: Float!
@@ -48,7 +48,7 @@ type RootQuery {
 }
 
 type RootMutation {
-    createEvent(eventInput: EventImput): Event
+    createEvent(eventInput: EventInput): Event
     createUser(userInput: UserInput): User
     bookEvent(eventId: ID!): booking!
     cancelBooking(bookingId: ID!): Event!
