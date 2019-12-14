@@ -64,7 +64,7 @@ const transformBooking = booking => {
       }; 
     };
   
-    exports.trnsformEvent = transformEvent;
+    exports.transformEvent = transformEvent;
     exports.transformBooking = transformBooking;
   // exports.user = user;
   // exports.events = events;
