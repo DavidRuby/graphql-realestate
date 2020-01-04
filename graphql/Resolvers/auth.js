@@ -11,7 +11,6 @@ module.exports = {
         throw new Error('User exists already.');
       }
       const hashedPassword = await bcrypt.hash(args.userInput.password, 12);
-
       const user = new User({
         email: args.userInput.email,
         password: hashedPassword
