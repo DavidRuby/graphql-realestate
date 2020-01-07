@@ -37,7 +37,7 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb://selim12:selim12@ds243501.mlab.com:43501/selim12`,
+    `mongodb+srv://David:Elburrin1234@reactjsprojects-g277v.mongodb.net/test?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => {
