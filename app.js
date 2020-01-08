@@ -24,9 +24,7 @@ app.use(
 
 mongoose
   .connect(
-    `mongodb+srv://${process.env.David}:${
-      process.env.chNazkBa7bnOgieg
-    }@cluster0-ntrwp.mongodb.net/${process.env.events-react-dev}?retryWrites=true`
+    `mongodb+srv://David:Elburrin1234@reactjsprojects-g277v.mongodb.net/test?retryWrites=true&w=majority`
   )
   .then(() => {
     app.listen(8000);

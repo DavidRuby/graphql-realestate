@@ -1,5 +1,9 @@
 const { buildSchema } = require('graphql');
 
+MONGO_PORT = 27017,
+MONGO_URL = 'MONGODB:/localhost:27017/database'
+
+
 module.exports = buildSchema(`
 type Booking {
     _id: ID!
