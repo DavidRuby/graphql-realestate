@@ -11,7 +11,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// app.use(isAuth);
+//app.use(isAuth);
 
 app.use(
   '/graphql',
@@ -23,9 +23,7 @@ app.use(
 );
 
 mongoose
-  .connect(
-    `mongodb+srv://David:Elburrin1234@reactjsprojects-g277v.mongodb.net/test?retryWrites=true&w=majority`
-  )
+  .connect()
   .then(() => {
     app.listen(8000);
   })
