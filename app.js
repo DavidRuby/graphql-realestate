@@ -1,17 +1,29 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
-const mongoose = require('mongoose');
+import express from 'express';
+import graphqlHttp from 'express-graphql';
+
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
-const isAuth = require('./middleware/is-auth');
+
 
 const app = express();
+const port = 8000;
 
+const schema = require('./graphql/schema/index');
+const schema = require('./graphql/resolvers/index');
+const Chalk = require('chalk');
+const cors = require('cors');
+
+app.use('/graphql', cors(), graphqlHttp(() => ({
+  schema: schema
+})));
+app.listen(port);
+console.log(`Started on ${Chalk.underline.blue(`http://localhost:${8000}/`)}`);
 app.use(bodyParser.json());
 
-//app.use(isAuth);
 
 app.use(
   '/graphql',
@@ -21,12 +33,3 @@ app.use(
     graphiql: true
   })
 );
-
-mongoose
-  .connect()
-  .then(() => {
-    app.listen(8000);
-  })
-  .catch(err => {
-    console.log(err);
-  });
