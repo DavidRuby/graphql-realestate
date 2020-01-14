@@ -1,21 +1,18 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const graphqlHttp = require('express-graphql');
-import express from 'express';
-import graphqlHttp from 'express-graphql';
+const Chalk = require('chalk');
+const cors = require('cors');
 
 
 const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
 
 
+
 const app = express();
 const port = 8000;
 
-const schema = require('./graphql/schema/index');
-const schema = require('./graphql/resolvers/index');
-const Chalk = require('chalk');
-const cors = require('cors');
 
 app.use('/graphql', cors(), graphqlHttp(() => ({
   schema: schema
