@@ -5,8 +5,8 @@ const Chalk = require('chalk');
 const cors = require('cors');
 
 
-const graphQlSchema = require('./graphql/schema/index');
-const graphQlResolvers = require('./graphql/resolvers/index');
+const graphQlSchema = require('./graphql/Schema/index');
+const graphQlResolvers = require('./graphql/Resolvers/index');
 
 
 
