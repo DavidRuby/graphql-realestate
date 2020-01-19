@@ -11,7 +11,7 @@ const graphQlResolvers = require('./graphql/Resolvers/index');
 
 
 const app = express();
-const PORT = 8000;
+const port = 8000;
 
 
 app.use('/graphql', cors(), graphqlHttp(() => ({
